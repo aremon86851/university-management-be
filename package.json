@@ -10,10 +10,11 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "lint-and-prettier": "npm run lint && npm run format"
   },
   "lint-staged": {
-    "*.{ts}": "npm run lint && npm run format"
+    "*.{ts}": "npm run lint-and-prettier"
   },
   "keywords": [],
   "author": "",

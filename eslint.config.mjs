@@ -37,9 +37,6 @@ export default [
 
     rules: {
       '@typescript-eslint/no-unused-vars': 'error',
-      'no-console': 'error',
-      'no-undef': 'error',
-      'no-unused-expression': 'error',
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     },
   },

@@ -13,3 +13,4 @@ export const generateUserId = async () => {
   const incrementId = (parseInt(currentUserId) + 1).toString().padStart(5, '0');
   return incrementId;
 };
+//
