@@ -1,8 +1,7 @@
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import usersServices from './users.services';
 
-const createUser = async (req: Request, res: Response) => {
-  console.log(req.body);
+const createUser: RequestHandler = async (req, res, next) => {
   try {
     const { user } = req.body;
     const result = await usersServices.createUser(user);
@@ -11,11 +10,12 @@ const createUser = async (req: Request, res: Response) => {
       message: 'User created successfully',
       data: result,
     });
-  } catch {
-    res.status(404).send({
-      success: false,
-      message: "Couldn't create user",
-    });
+  } catch (err) {
+    // res.status(404).send({
+    //   success: false,
+    //   message: "Couldn't create user",
+    // });
+    next(err);
   }
 };
 
