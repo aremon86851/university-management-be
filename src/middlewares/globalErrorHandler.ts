@@ -9,11 +9,6 @@ import { ZodError } from 'zod';
 import handleZodError from '../errors/handleZodError';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
-  //   if (err instanceof Error) {
-  //     res.status(400).json({ error: err.message });
-  //   } else {
-  //     res.status(500).json({ error: 'Some this is wrong' });
-  //   }
   config.env === 'development'
     ? console.log(`Error`, error)
     : errorLogger.error(error);
@@ -26,6 +21,12 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessage = simplifiedError.errorMessage;
+  } else if (error?.kind === 'ObjectId') {
+    res.status(200).json({ error });
+    // const simplifiedError = handleCastError(error);
+    // statusCode = simplifiedError.statusCode;
+    // message = simplifiedError.message;
+    // errorMessage = simplifiedError.errorMessage;
   } else if (error instanceof ZodError) {
     const simplifiedError = handleZodError(error);
     statusCode = simplifiedError.statusCode;
