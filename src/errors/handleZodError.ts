@@ -6,7 +6,7 @@ const handleZodError = (error: ZodError): IGenericErrorResponse => {
   const validationError: IGenericErrorMessage[] = error.issues.map((issue) => {
     return {
       path: issue.path[issue.path.length - 1],
-      message: `${issue.path[issue.path.length - 1]} is ${issue.message}`,
+      message: issue.message,
     };
   });
   const statusCode = 400;
