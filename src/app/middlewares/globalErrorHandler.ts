@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
+
 import { ErrorRequestHandler } from 'express';
-import { IGenericErrorMessage } from '../interfaces/error';
-import config from '../config';
-import handleSimplifiedError from '../errors/handleValidationError';
-import ApiError from '../errors/ApiError';
-import { errorLogger } from '../shared/logger';
+import config from '../../config';
+import { errorLogger } from '../../shared/logger';
+import { IGenericErrorMessage } from '../../interfaces/error';
+import handleSimplifiedError from '../../errors/handleValidationError';
 import { ZodError } from 'zod';
-import handleZodError from '../errors/handleZodError';
+import handleZodError from '../../errors/handleZodError';
+import ApiError from '../../errors/ApiError';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   config.env === 'development'
@@ -21,12 +22,6 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessage = simplifiedError.errorMessage;
-  } else if (error?.kind === 'ObjectId') {
-    res.status(200).json({ error });
-    // const simplifiedError = handleCastError(error);
-    // statusCode = simplifiedError.statusCode;
-    // message = simplifiedError.message;
-    // errorMessage = simplifiedError.errorMessage;
   } else if (error instanceof ZodError) {
     const simplifiedError = handleZodError(error);
     statusCode = simplifiedError.statusCode;

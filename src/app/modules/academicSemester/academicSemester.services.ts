@@ -1,10 +1,13 @@
 import httpStatus from 'http-status';
-import ApiError from '../../errors/ApiError';
+import ApiError from '../../../errors/ApiError';
 import { academicSemesterTitlesMapper } from './academicSemester.constant';
 import { IAcademicSemester, IFiltered } from './academicSemester.interface';
 import { AcademicSemester } from './academicSemester.model';
-import { IPagination, IPaginationResponse } from '../../interfaces/pagination';
-import paginationHelpers from '../../helpers/paginationHelpers';
+import {
+  IPagination,
+  IPaginationResponse,
+} from '../../../interfaces/pagination';
+import paginationHelpers from '../../../helpers/paginationHelpers';
 import { SortOrder } from 'mongoose';
 
 const createSemester = async (

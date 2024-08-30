@@ -1,8 +1,8 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import routes from './modules/routes';
+import routes from './app/routes';
 import httpStatus from 'http-status';
-import globalErrorHandler from './middlewares/globalErrorHandler';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
 const app: Application = express();
 
 app.use(cors());
@@ -22,6 +22,8 @@ app.use('/api/v1/', routes);
 // });
 
 // Handle not found route
+app.use(globalErrorHandler);
+// Handle undefined routes (404)
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(httpStatus.NOT_FOUND).json({
     success: false,
@@ -35,8 +37,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   });
   next();
 });
-
-app.use(globalErrorHandler);
 export default app;
 
 //11.7

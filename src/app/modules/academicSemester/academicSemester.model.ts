@@ -4,7 +4,7 @@ import {
   IAcademicSemester,
 } from './academicSemester.interface';
 import httpStatus from 'http-status';
-import ApiError from '../../errors/ApiError';
+import ApiError from '../../../errors/ApiError';
 const months = [
   'January',
   'February',
