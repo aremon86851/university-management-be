@@ -4,6 +4,11 @@ import { academicDepartmentController } from './academicDepartment.controller';
 import { academicDepartmentZodValidation } from './academicDepartment.validation';
 const AcademicDepartment = express.Router();
 
+AcademicDepartment.get(
+  '/:id',
+  academicDepartmentController.getASingleAcademicDepartment
+);
+
 AcademicDepartment.post(
   '/create-department',
   validationRequest(

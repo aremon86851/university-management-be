@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { FacultyDesignation, FacultyGroup } from './faculty.model';
 import { FacultyGenders } from './faculty.constant';
+import { FacultyDesignation, FacultyGroup } from './faculty.model';
 
 const createFacultyZodValidation = z.object({
   body: z.object({

@@ -4,6 +4,8 @@ import { FacultyZodValidation } from './faculty.validation';
 import validationRequest from '../../middlewares/validationRequest';
 const Faculty = express.Router();
 
+Faculty.get('/:id', facultyController.getASingleFaculty);
+
 Faculty.post(
   '/create-faculty',
   validationRequest(FacultyZodValidation.createFacultyZodValidation),

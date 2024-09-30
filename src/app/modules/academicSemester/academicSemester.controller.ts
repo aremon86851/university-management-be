@@ -4,7 +4,7 @@ import catchAsync from '../../../shared/catchAsync';
 import httpStatus from 'http-status';
 import sendResponse from '../../../shared/sendResponse';
 import { IPagination } from '../../../interfaces/pagination';
-import pick from '../../../shared/pict';
+import pick from '../../../shared/pick';
 import { paginationFields } from '../../../constatnt/pagination';
 import { IAcademicSemester } from './academicSemester.interface';
 import { filterableFields } from './academicSemester.constant';

@@ -22,6 +22,18 @@ const createFaculty = async (faculty: IFaculty): Promise<IFaculty | null> => {
   return createdFaculty;
 };
 
+const singleFaculty = async (id: string): Promise<IFaculty | null> => {
+  const finFacultyById = await Faculty.findById(id).populate([
+    'academicFaculty',
+    'academicDepartment',
+  ]);
+  if (!finFacultyById) {
+    throw new Error('Could not find user');
+  }
+  return finFacultyById;
+};
+
 export const FacultyService = {
   createFaculty,
+  singleFaculty,
 };

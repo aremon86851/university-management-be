@@ -20,7 +20,20 @@ const createAcademicDepartment = catchAsync(
     next();
   }
 );
+const getASingleAcademicDepartment = catchAsync(
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const result = await academicDepartmentService.findAAcademicDepartment(id);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Academic Department get successfully',
+      data: result,
+    });
+  }
+);
 
 export const academicDepartmentController = {
   createAcademicDepartment,
+  getASingleAcademicDepartment,
 };

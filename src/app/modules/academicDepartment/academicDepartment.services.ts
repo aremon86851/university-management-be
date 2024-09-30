@@ -13,6 +13,17 @@ const createAcademicDepartment = async (
   return createdAcademicDepartment;
 };
 
+const findAAcademicDepartment = async (
+  id: string
+): Promise<IAcademicDepartment | null> => {
+  const findById = await academicDepartment
+    .findById(id)
+    .populate('academicFaculty');
+  if (!findById) throw new Error('Could not findademic department');
+  return findById;
+};
+
 export const academicDepartmentService = {
   createAcademicDepartment,
+  findAAcademicDepartment,
 };

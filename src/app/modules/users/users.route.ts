@@ -4,10 +4,14 @@ import { UserZodValidation } from './users.validation';
 import { usersController } from './users.controller';
 const UserRoute = express.Router();
 
+UserRoute.get('/:id', usersController.getASingleUser);
+
 UserRoute.post(
-  '/create-user',
-  validationRequest(UserZodValidation.createUserZodValidation),
-  usersController.createUser
+  '/create-student',
+  validationRequest(UserZodValidation.createStudentZodValidation),
+  usersController.createStudent
 );
+
+UserRoute.get('/', usersController.getAllUsers);
 
 export default UserRoute;

@@ -17,7 +17,18 @@ const createFaculty = catchAsync(
     next();
   }
 );
+const getASingleFaculty = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await FacultyService.singleFaculty(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Faculty created successfully',
+    data: result,
+  });
+});
 
 export const facultyController = {
   createFaculty,
+  getASingleFaculty,
 };
