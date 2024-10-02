@@ -11,6 +11,16 @@ UserRoute.post(
   validationRequest(UserZodValidation.createStudentZodValidation),
   usersController.createStudent
 );
+UserRoute.post(
+  '/create-faculty',
+  validationRequest(UserZodValidation.createFacultyZodValidation),
+  usersController.createFaculty
+);
+UserRoute.post(
+  '/create-admin',
+  validationRequest(UserZodValidation.createAdminZodValidation),
+  usersController.createAdmin
+);
 
 UserRoute.get('/', usersController.getAllUsers);
 

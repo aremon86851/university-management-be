@@ -4,15 +4,18 @@ import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { IStudent } from '../student/student.interface';
 import { IUser } from './users.interface';
 import { User } from './users.model';
-import { generateStudentId } from './users.utils';
+import { generateFacultyId, generateStudentId } from './users.utils';
 import { Student } from '../student/student.model';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
+import { Faculty } from '../faculty/faculty.model';
+import { IFaculty } from '../faculty/faculty.interface';
+import { IAdmin } from '../admin/admin.interface';
 
 const createStudent = async (
   student: IStudent,
   user: IUser
-): Promise<IUser | null> => {
+): Promise<IStudent | null> => {
   // Auto generated password
   if (!user.password) {
     user.password = config.default_user_pass as string;
@@ -59,23 +62,121 @@ const createStudent = async (
   }
 
   if (newUserAllData) {
-    newUserAllData = await User.findOne({
+    newUserAllData = await Student.findOne({
       id: newUserAllData.id,
-    }).populate({
-      path: 'student',
-      populate: [
-        {
-          path: 'academicSemester',
-        },
-        {
-          path: 'academicDepartment',
-        },
-        {
-          path: 'academicFaculty',
-        },
-      ],
-    });
+    })
+      .populate('academicSemester')
+      .populate('academicDepartment')
+      .populate('academicFaculty');
   }
+  return newUserAllData;
+};
+
+const createFaculty = async (
+  faculty: IFaculty,
+  user: IUser
+): Promise<IFaculty | null> => {
+  if (!user.password) {
+    user.password = config.default_user_pass as string;
+  }
+  user.role = 'faculty';
+  // Auto generated id
+  let newUserAllData = null;
+  const session = await mongoose.startSession();
+  try {
+    await session.startTransaction();
+    const id = await generateFacultyId();
+    user.id = id;
+    faculty.id = id;
+    const createFaculty = await Faculty.create([faculty], { session });
+    if (!createFaculty.length) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'Faculty created not successfully'
+      );
+    }
+    //Make student _id to user student ref
+    user.faculty = createFaculty[0]._id;
+    const createUser = await User.create([user], { session });
+    if (!createUser.length) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'User created not successfully'
+      );
+    }
+    newUserAllData = createUser[0];
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      `Operations is failed: ${error}`
+    );
+  }
+  if (newUserAllData) {
+    newUserAllData = await Faculty.findOne({
+      id: newUserAllData.id,
+    })
+      .populate('academicDepartment')
+      .populate('academicFaculty');
+  }
+  // console.log(newUserAllData);
+  return newUserAllData;
+};
+
+const createAdmin = async (
+  admin: IAdmin,
+  user: IUser
+): Promise<IAdmin | null> => {
+  if (!user.password) {
+    user.password = config.default_user_pass as string;
+  }
+  user.role = 'faculty';
+  // Auto generated id
+  let newUserAllData = null;
+  const session = await mongoose.startSession();
+  try {
+    await session.startTransaction();
+    const id = await generateFacultyId();
+    user.id = id;
+    admin.id = id;
+    const createFaculty = await Faculty.create([admin], { session });
+    if (!createFaculty.length) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'Faculty created not successfully'
+      );
+    }
+    //Make student _id to user student ref
+    user.faculty = createFaculty[0]._id;
+    const createUser = await User.create([user], { session });
+    if (!createUser.length) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'User created not successfully'
+      );
+    }
+    newUserAllData = createUser[0];
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      `Operations is failed: ${error}`
+    );
+  }
+  if (newUserAllData) {
+    newUserAllData = await Faculty.findOne({
+      id: newUserAllData.id,
+    })
+      .populate('academicDepartment')
+      .populate('academicFaculty');
+  }
+  // console.log(newUserAllData);
   return newUserAllData;
 };
 
@@ -89,5 +190,7 @@ const singleUser = async (id: string): Promise<IUser | null> => {
 
 export const UserService = {
   createStudent,
+  createFaculty,
   singleUser,
+  createAdmin,
 };

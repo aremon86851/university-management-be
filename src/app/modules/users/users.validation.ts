@@ -1,5 +1,7 @@
 import { z } from 'zod';
 import { bloodGroups } from '../student/student.constant';
+import { FacultyGenders } from '../faculty/faculty.constant';
+import { FacultyDesignation, FacultyGroup } from '../faculty/faculty.model';
 
 const createStudentZodValidation = z.object({
   body: z.object({
@@ -68,6 +70,85 @@ const createStudentZodValidation = z.object({
     }),
   }),
 });
+const createFacultyZodValidation = z.object({
+  body: z.object({
+    password: z.string().optional(),
+    faculty: z.object({
+      name: z.object({
+        firstName: z.string({ required_error: 'First Name is required' }),
+        middleName: z.string({ required_error: 'Middle Name is required' }),
+        lastName: z.string({ required_error: 'Last Name is required' }),
+      }),
+      gender: z.enum([...FacultyGenders] as [string, ...string[]], {
+        required_error: 'Gender is required',
+      }),
+      dateOfBirth: z.string({ required_error: 'Date of Birth is required' }),
+      bloodGroup: z.enum([...FacultyGroup] as [string, ...string[]], {
+        required_error: 'Blood group is required',
+      }),
+      email: z.string({ required_error: 'Email is required' }),
+      contactNo: z.string({ required_error: 'Contact no is required' }),
+      emergencyContactNo: z.string({
+        required_error: 'Emergency contact no is required',
+      }),
+      presentAddress: z.string({
+        required_error: 'Present address is required',
+      }),
+      permanentAddress: z.string({
+        required_error: 'Permanent address is required',
+      }),
+      designation: z.enum([...FacultyDesignation] as [string, ...string[]], {
+        required_error: 'Designation is required',
+      }),
+      academicDepartment: z.string({
+        required_error: 'Department is required',
+      }),
+      academicFaculty: z.string({ required_error: 'Faculty is required' }),
+      profileImage: z.string({ required_error: 'Faculty is required' }),
+    }),
+  }),
+});
+const createAdminZodValidation = z.object({
+  body: z.object({
+    password: z.string().optional(),
+    admin: z.object({
+      name: z.object({
+        firstName: z.string({ required_error: 'First Name is required' }),
+        middleName: z.string({ required_error: 'Middle Name is required' }),
+        lastName: z.string({ required_error: 'Last Name is required' }),
+      }),
+      gender: z.enum([...FacultyGenders] as [string, ...string[]], {
+        required_error: 'Gender is required',
+      }),
+      dateOfBirth: z.string({ required_error: 'Date of Birth is required' }),
+      bloodGroup: z.enum([...FacultyGroup] as [string, ...string[]]).optional(),
+      email: z.string({ required_error: 'Email is required' }),
+      contactNo: z.string({ required_error: 'Contact no is required' }),
+      emergencyContactNo: z.string({
+        required_error: 'Emergency contact no is required',
+      }),
+      presentAddress: z.string({
+        required_error: 'Present address is required',
+      }),
+      permanentAddress: z.string({
+        required_error: 'Permanent address is required',
+      }),
+      designation: z.enum([...FacultyDesignation] as [string, ...string[]], {
+        required_error: 'Designation is required',
+      }),
+      academicDepartment: z.string({
+        required_error: 'Department is required',
+      }),
+      academicFaculty: z.string({ required_error: 'Faculty is required' }),
+      profileImage: z.string().optional(),
+      managementDepartment: z.string({
+        required_error: 'Management department is required',
+      }),
+    }),
+  }),
+});
 export const UserZodValidation = {
   createStudentZodValidation,
+  createFacultyZodValidation,
+  createAdminZodValidation,
 };

@@ -1,7 +1,8 @@
 import express from 'express';
 import validationRequest from '../../middlewares/validationRequest';
-import studentController from './student.controller';
+// import studentController from './student.controller';
 import { StudentZodValidation } from './student.validation';
+import studentController from './student.controller';
 const router = express.Router();
 
 router.get('/', studentController.getAllStudent);

@@ -1,5 +1,4 @@
 import { Types } from 'mongoose';
-import { IAcademicDepartment } from '../academicDepartment/academicDepartment.interface';
 import { Model } from 'mongoose';
 
 export type IAdmin = {
@@ -9,12 +8,16 @@ export type IAdmin = {
     middleName: string;
     lastName: string;
   };
-  gender: 'male' | 'female';
   dateOfBirth: string;
   email: string;
   contactNo: string;
+  gender: 'male' | 'female';
   emergencyContactNo: string;
-  department: Types.ObjectId | IAcademicDepartment;
+  presentAddress: string;
+  permanentAddress: string;
+  bloodGroup?: string;
+  profileImage?: string;
+  managementDepartment: Types.ObjectId | IManagementDepartment;
   designation: string;
 };
 

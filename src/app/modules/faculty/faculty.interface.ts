@@ -33,5 +33,11 @@ export type IFaculty = {
   academicDepartment: Types.ObjectId | IAcademicDepartment;
   academicFaculty: Types.ObjectId | IAcademicFaculty;
 };
-
+export type IFiltered = {
+  searchTerm?: string;
+  bloodGroup?: string;
+  id?: string;
+  contactNo?: string;
+  emergencyContactNo?: string;
+};
 export type FacultyModel = Model<IFaculty, Record<string, unknown>>;
