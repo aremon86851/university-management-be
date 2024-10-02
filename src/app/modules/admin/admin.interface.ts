@@ -21,5 +21,11 @@ export type IAdmin = {
   managementDepartment: Types.ObjectId | IManagementDepartment;
   designation: string;
 };
+export type IFiltered = {
+  searchTerm?: string;
+  bloodGroup?: string;
+  contactNo?: string;
+  emergencyContactNo?: string;
+};
 
 export type AdminModel = Model<IAdmin, Record<string, unknown>>;
