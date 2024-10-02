@@ -133,13 +133,9 @@ const createAdminZodValidation = z.object({
       permanentAddress: z.string({
         required_error: 'Permanent address is required',
       }),
-      designation: z.enum([...FacultyDesignation] as [string, ...string[]], {
+      designation: z.string({
         required_error: 'Designation is required',
       }),
-      academicDepartment: z.string({
-        required_error: 'Department is required',
-      }),
-      academicFaculty: z.string({ required_error: 'Faculty is required' }),
       profileImage: z.string().optional(),
       managementDepartment: z.string({
         required_error: 'Management department is required',

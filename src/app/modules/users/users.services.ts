@@ -4,13 +4,18 @@ import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { IStudent } from '../student/student.interface';
 import { IUser } from './users.interface';
 import { User } from './users.model';
-import { generateFacultyId, generateStudentId } from './users.utils';
+import {
+  generateAdminId,
+  generateFacultyId,
+  generateStudentId,
+} from './users.utils';
 import { Student } from '../student/student.model';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
 import { Faculty } from '../faculty/faculty.model';
 import { IFaculty } from '../faculty/faculty.interface';
 import { IAdmin } from '../admin/admin.interface';
+import { Admin } from '../admin/admin.model';
 
 const createStudent = async (
   student: IStudent,
@@ -133,24 +138,24 @@ const createAdmin = async (
   if (!user.password) {
     user.password = config.default_user_pass as string;
   }
-  user.role = 'faculty';
+  user.role = 'admin';
   // Auto generated id
   let newUserAllData = null;
   const session = await mongoose.startSession();
   try {
     await session.startTransaction();
-    const id = await generateFacultyId();
+    const id = await generateAdminId();
     user.id = id;
     admin.id = id;
-    const createFaculty = await Faculty.create([admin], { session });
-    if (!createFaculty.length) {
+    const createAdmin = await Admin.create([admin], { session });
+    if (!createAdmin.length) {
       throw new ApiError(
         httpStatus.BAD_REQUEST,
-        'Faculty created not successfully'
+        'Admin created not successfully'
       );
     }
     //Make student _id to user student ref
-    user.faculty = createFaculty[0]._id;
+    user.faculty = createAdmin[0]._id;
     const createUser = await User.create([user], { session });
     if (!createUser.length) {
       throw new ApiError(
@@ -170,11 +175,9 @@ const createAdmin = async (
     );
   }
   if (newUserAllData) {
-    newUserAllData = await Faculty.findOne({
+    newUserAllData = await Admin.findOne({
       id: newUserAllData.id,
-    })
-      .populate('academicDepartment')
-      .populate('academicFaculty');
+    }).populate('managementDepartment');
   }
   // console.log(newUserAllData);
   return newUserAllData;

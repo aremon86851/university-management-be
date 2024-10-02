@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
 import { Model } from 'mongoose';
+import { IManagementDepartment } from '../managementDepartment/managementDepartment.interface';
 
 export type IAdmin = {
   id: string;
