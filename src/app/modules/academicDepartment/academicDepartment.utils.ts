@@ -1,4 +1,4 @@
-import { academicFaculty } from './academicFaculty.model';
+import { academicFaculty } from '../academicFaculty/academicFaculty.model';
 
 const findLastAcademicFacultyId = async () => {
   const lastUserId: {
