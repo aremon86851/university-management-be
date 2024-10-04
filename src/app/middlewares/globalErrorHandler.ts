@@ -2,7 +2,6 @@
 
 import { ErrorRequestHandler } from 'express';
 import config from '../../config';
-import { errorLogger } from '../../shared/logger';
 import { IGenericErrorMessage } from '../../interfaces/error';
 import handleSimplifiedError from '../../errors/handleValidationError';
 import { ZodError } from 'zod';
@@ -12,7 +11,7 @@ import ApiError from '../../errors/ApiError';
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   config.env === 'development'
     ? console.log(`Error`, error)
-    : errorLogger.error(error);
+    : console.log(error);
   let statusCode = 500;
   let message = 'Something went wrong!';
   let errorMessage: IGenericErrorMessage[] = [];

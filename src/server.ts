@@ -1,29 +1,29 @@
 import mongoose from 'mongoose';
 import app from './app';
 import config from './config/index';
-import { errorLogger, logger } from './shared/logger';
 import { Server } from 'http';
 
 process.on('uncaughtException', () => {
-  errorLogger.error('Uncaught exception is detected.....');
+  console.log('Uncaught exception is detected.....');
   process.exit(1);
 });
 async function main() {
   let server: Server;
   try {
     await mongoose.connect(config.database_url as string);
-    logger.info(`😊Database connected successfully😊}`);
-    server = app.listen(config.port, () => {
-      logger.info(`Application app listening on port ${config.port}`);
+    console.log(`😊Database connected successfully😊}`);
+    app.listen(config.port, () => {
+      console.log(`Application app listening on port ${config.port}`);
     });
   } catch (error) {
-    errorLogger.error(error);
+    console.log(error);
   }
   process.on('unhandledRejection', (error) => {
-    errorLogger.error('unhadnle error server want to off');
+    // console.log('unhandled error server want to off');
+    // new Error(error);
     if (server) {
       server.close(() => {
-        errorLogger.error(error);
+        console.log(error);
         process.exit(1);
       });
     } else {
